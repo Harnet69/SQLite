@@ -10,7 +10,7 @@ class NewsDB implements INewsDB{
 	function __construct(){
 		if (is_file(self:: DB_NAME)){
 			$this->_db = new SQLite3(self:: DB_NAME);
-			echo "Какаха";}
+		}
 		else{
 			$this->_db = new SQLite3(self:: DB_NAME);
 			$sql = "CREATE TABLE msgs(
@@ -38,13 +38,34 @@ class NewsDB implements INewsDB{
 
 	function saveNews($title, $category, $description, $source){
 		$dt = time();
-		$sql = "";
-}
+		$sql = "INSERT INTO msgs(
+				title, 
+				category, 
+				description, 
+				source, 
+				datetime)
+			VALUES ('$title', $category, '$description', '$source', $dt)";
+		$this->_db->exec($sql) or die ($this->_db->lastErrorMsg());
+	}
 	
-	function getNews(){}
+	function getNews(){
+		$sql ="SELECT msgs.id as id, title, msgs.category as category, description, source, datetime FROM msgs, category WHERE category.id = msgs.category ORDER BY msgs.id DESC";
+		$result = $this->_db->query($sql)or die ($this->_db->lastErrorMsg());
+		$row = $result->fetchArray();
+		return $row;
+	}
 
 	function deleteNews($id){}
 
+	function clearStr($data){
+		$data = strip_tags(trim($data));	
+		return $this->_db->escapeString($data);
+	}
+
+	function clearInt($data){
+		return (int)(abs($data));
+	}
+	
 	function __destruct(){
 		unset($this->_db);
 	}

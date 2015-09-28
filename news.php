@@ -1,4 +1,14 @@
 <?php
+	require 'NewsDB.class.php';
+	$news = new NewsDB;
+	$errMSG = '';
+	if ($_SERVER['REQUEST_METHOD'] == "POST"){
+		INCLUDE 'save_news.inc.php';
+	}
+	$a = $news->getNews();
+		foreach ($a as $n=>$v){
+			echo "$n - $v<br>";
+		}
 
 ?>
 
@@ -13,9 +23,11 @@
 
 <h1>Последние новости</h1>
 <?php
-
+	if ($errMSG){
+		echo "<h3>".$errMSG."</h3>";
+	}
 ?>
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
 
 Заголовок новости:<br />
 <input type="text" name="title" /><br />
