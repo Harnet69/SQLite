@@ -1,5 +1,4 @@
 <?php
-//$title', $category, '$description', '$source', $dt
 $title = $news->clearStr ($_POST['title']);
 $category = $news->clearInt ($_POST['category']);
 $description = $news->clearStr ($_POST['description']);

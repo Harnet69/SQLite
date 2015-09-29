@@ -5,10 +5,10 @@
 	if ($_SERVER['REQUEST_METHOD'] == "POST"){
 		INCLUDE 'save_news.inc.php';
 	}
-	$a = $news->getNews();
-		foreach ($a as $n=>$v){
-			echo "$n - $v<br>";
-		}
+	//$a = $news->db2Arr();
+		//foreach ($a as $n=>$v){
+			//echo "$n - $v<br>";
+		//}
 
 ?>
 
