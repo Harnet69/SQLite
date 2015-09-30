@@ -7,7 +7,12 @@ $source = $news->clearStr ($_POST['source']);
 		$errMSG = "Заполните поля правильно!";
 	}
 	else {
-		$news->saveNews($title, $category, $description, $source);
-		header ('Location: news.php');		
+		if (!$news->saveNews($title, $category, $description, $source)){
+		$errMSG = "Ошибка при записи!";	
+		}
+		else {
+		header ('Location: news.php');	
+		exit;		
+		}
 	}
 ?>

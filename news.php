@@ -10,8 +10,11 @@
 	}
 	if(isset($_GET['edit'])){
 		setcookie('id', $_GET['edit']);
-		setcookie('title', $_GET['title']);
-		header ('Location: edit_news.inc.php');
+		include 'edit_news.inc.php';
+		exit;
+
+		//setcookie('title', $_GET['title']);
+		//header ('Location: edit_news.inc.php');
 	}
 ?>
 

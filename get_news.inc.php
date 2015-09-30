@@ -1,5 +1,9 @@
 <?php
 $result = $news->getNews();
+	if (is_array(!$result)){
+		$errMsg = "Произошла ошибка при выводе ленты!";
+	}
+	else{ 
 echo "<p>Всего последних новостей ".count ($result)."</p>";
 foreach ($result as $item){
 	$id = $item['id'];
@@ -15,7 +19,8 @@ foreach ($result as $item){
 	<p>$description</p>
 	<p>$category @ $datetime</p>
 	<p align="right"><a href="news.php?del=$id">Удаление</a>	
-	<a href="news.php?edit=$id, $title">Редактирование</a></p>	
+	<a href="news.php?edit=$id">Редактирование</a></p>	
 LABEL;
 }
+	}
 ?>

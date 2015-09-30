@@ -60,6 +60,40 @@ $result = $stmt-execute();// возвращается объект или false
 $stmt->close();//если стэйтмент больше не нужен// если ещё нужно ео использовать - reset();
 $row = $result->fetchArray;// перебрать, это если запрос SELECT на выборку с БД
 
+ОБРАБОТКА ИСКЛЮЧЕНИЙ В SQLite:
+	В методе основного класса : 
+		function deleteNews($id){
+				try{
+				$sql = "DELETE FROM msgs WHERE id = $id";
+				$res = $this->_db->exec($sql);
+				if (!$res){
+					throw new Exception($this->_db->lastErrorMsg());
+				}
+				return true;
+				}
+				
+				catch(Exception $e){
+					// $e->getMessage(); // можно послать себе письмо с ошибкой
+					return false;// остальным вывалим false
+				}
+			}
+	в хендлере обработчике удаления (так как приходит false) пишем
+		$id = $news->clearInt($_GET['del']);
+			if ($id){
+				if (!$news->deleteNews($id)){
+					$errMsg = "Произошла ошибка удаления";
+				}
+				else{
+				header('Location: news.php');
+				exit;
+				}
+			}
+
+
+
+
+
+
 Шпора по ООП:
 $name = new <имя>(); - new - создание объекта(сущности, экземпляра класса)
 __CLASS__ - псевдоконстанта, размещённая в методе, вернёт вернёт "Класс"

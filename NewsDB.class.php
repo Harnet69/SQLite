@@ -37,15 +37,22 @@ class NewsDB implements INewsDB{
 	}
 
 	function saveNews($title, $category, $description, $source){
-		$dt = time();
-		$sql = "INSERT INTO msgs(
-				title, 
-				category, 
-				description, 
-				source, 
-				datetime)
-			VALUES ('$title', $category, '$description', '$source', $dt)";
-		$this->_db->exec($sql) or die ($this->_db->lastErrorMsg());
+		try{
+			$dt = time();
+			$sql = "INSERT INTO msgs(
+					title, 
+					category, 
+					description, 
+					source, 
+					datetime)
+				VALUES ('$title', $category, '$description', '$source', $dt)";
+			$res = $this->_db->exec($sql);
+				if (!$res)
+				throw new Exception($this->_db->lastErrorMsg());
+		}
+		catch(Exception $e){
+			return false;		
+		}
 	}
 	
 	protected function db2Arr($data ){
@@ -57,14 +64,31 @@ class NewsDB implements INewsDB{
 		}
 
 	function getNews(){
-		$sql ="SELECT msgs.id as id, title, msgs.category as category, description, source, datetime FROM msgs, category WHERE category.id = msgs.category ORDER BY msgs.id DESC";
-		$res = $this->_db->query($sql)or die ($this->_db->lastErrorMsg());
-		return $this->db2Arr($res);
+		try{
+			$sql ="SELECT msgs.id as id, title, msgs.category as category, description, source, datetime FROM msgs, category WHERE category.id = msgs.category ORDER BY msgs.id DESC";
+			$res = $this->_db->query($sql);
+				if (!is_object ($res))
+				throw new Exception($this->_db->lastErrorMsg());			
+			return $this->db2Arr($res);
+		}catch(Exception $e){
+			// $e->getMessage(); // можно послать себе письмо с ошибкой
+			return false;	
+		}
 	}
 
 	function deleteNews($id){
+		try{
 		$sql = "DELETE FROM msgs WHERE id = $id";
-		$this->_db->exec($sql)or die ($this->_db->lastErrorMsg());
+		$res = $this->_db->exec($sql);
+		if (!$res)
+			throw new Exception($this->_db->lastErrorMsg());		
+		return true;
+		}
+		
+		catch(Exception $e){
+			// $e->getMessage(); // можно послать себе письмо с ошибкой
+			return false;
+		}
 	}
 	
 	function editNews($id){}
