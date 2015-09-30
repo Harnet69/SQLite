@@ -5,11 +5,14 @@
 	if ($_SERVER['REQUEST_METHOD'] == "POST"){
 		INCLUDE 'save_news.inc.php';
 	}
-	//$a = $news->db2Arr();
-		//foreach ($a as $n=>$v){
-			//echo "$n - $v<br>";
-		//}
-
+	if(isset($_GET['del'])){
+		include 'delete_news.inc.php';
+	}
+	if(isset($_GET['edit'])){
+		setcookie('id', $_GET['edit']);
+		setcookie('title', $_GET['title']);
+		header ('Location: edit_news.inc.php');
+	}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -48,7 +51,7 @@
 </form>
 
 <?php
-
+include 'get_news.inc.php';
 ?>
 
 </body>

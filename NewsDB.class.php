@@ -60,10 +60,14 @@ class NewsDB implements INewsDB{
 		$sql ="SELECT msgs.id as id, title, msgs.category as category, description, source, datetime FROM msgs, category WHERE category.id = msgs.category ORDER BY msgs.id DESC";
 		$res = $this->_db->query($sql)or die ($this->_db->lastErrorMsg());
 		return $this->db2Arr($res);
-
 	}
 
-	function deleteNews($id){}
+	function deleteNews($id){
+		$sql = "DELETE FROM msgs WHERE id = $id";
+		$this->_db->exec($sql)or die ($this->_db->lastErrorMsg());
+	}
+	
+	function editNews($id){}
 
 	function clearStr($data){
 		$data = strip_tags(trim($data));	
@@ -78,5 +82,4 @@ class NewsDB implements INewsDB{
 		unset($this->_db);
 	}
 }
-
 ?>

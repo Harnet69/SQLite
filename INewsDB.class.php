@@ -29,5 +29,7 @@ interface INewsDB{
 	*	@return boolean - результат успех/ошибка
 	*/
 	function deleteNews($id);
+	
+	function editNews($id);// Редактирование новости
 }
 ?>
